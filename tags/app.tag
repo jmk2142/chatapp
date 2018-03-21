@@ -1,9 +1,12 @@
-<app id="frame">
+<app>
+	<login if={ user == null }></login>
+
+	<div id="frame" if={ user !== null }>
 		<div id="sidepanel">
 			<div id="profile">
 				<div class="wrap">
-					<img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
-					<p>Mike Ross</p>
+					<img id="profile-img" src="{ user.profilePicURL }" class="online" alt="" />
+					<p>{ user.name }</p>
 					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 					<div id="status-options">
 						<ul>
@@ -148,38 +151,14 @@
 			</div>
 			<div class="messages">
 				<ul>
-					<li class="sent">
-						<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-						<p>How the hell am I supposed to get a jury to believe you when I am not even sure that I do?!</p>
+					<li class="sent" each={ msg in chatLog }>
+						<img src="{ user.profilePicURL }" alt="" />
+						<p> { msg.message } </p>
 					</li>
-					<li class="replies">
+					<!-- <li class="replies">
 						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
 						<p>When you're backed against the wall, break the god damn thing down.</p>
-					</li>
-					<li class="replies">
-						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-						<p>Excuses don't win championships.</p>
-					</li>
-					<li class="sent">
-						<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-						<p>Oh yeah, did Michael Jordan tell you that?</p>
-					</li>
-					<li class="replies">
-						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-						<p>No, I told him that.</p>
-					</li>
-					<li class="replies">
-						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-						<p>What are your choices when someone puts a gun to your head?</p>
-					</li>
-					<li class="sent">
-						<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-						<p>What are you talking about? You do what they say or they shoot you.</p>
-					</li>
-					<li class="replies">
-						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-						<p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 			<div class="message-input">
@@ -190,50 +169,63 @@
 				</div>
 			</div>
 		</div>
-
+</div>
 	<script>
-		var that = this;
-
+		var app = this;
+		app.user = null;
 		// Demonstration Data
 		this.chatLog = [
-//			{ message: "Hello" }, { message: "Hola" }, { message: "Konnichiwa" }
+			{ message: "Hello"},
+			{ message: "Hola" },
+			{ message: "Konnichiwa" }
 		];
-
-		messagesRef.on("value", function(snapshot) {
-			var data = snapshot.val();
-
-			that.chatLog = [];
-			for (key in data)
-			{
-				that.chatLog.push(data[key]);
-			}
-
-			that.update();
-		});
-
-		sendMsg(e) {
-			if (e.type == "keypress" && e.key !== "Enter") {
-				e.preventUpdate = true; // Prevents riot from auto update.
-				return false; // Short-circuits function (function exits here, does not continue.)
-			}
-
-			if (this.refs.messageInput.value !== "")
-			{
-				var msg = {
-					message: this.refs.messageInput.value
-				};
-				messagesRef.push(msg);
-				this.clearInput();
-			}
-		}
-
-		clearInput(e) {
-			this.refs.messageInput.value = "";
-			this.refs.messageInput.focus();
-		}
+		//
+		// messagesRef.on("value", function(snapshot) {
+		// 	var data = snapshot.val();
+		//
+		// 	//that.chatLog = [];
+		// 	for (key in data)
+		// 	{
+		// 		that.chatLog.push(data[key]);
+		// 	}
+		//
+		// 	app.update();
+		// });
+		//
+		// sendMsg(e) {
+		// 	if (e.type == "keypress" && e.key !== "Enter") {
+		// 		e.preventUpdate = true; // Prevents riot from auto update.
+		// 		return false; // Short-circuits function (function exits here, does not continue.)
+		// 	}
+		//
+		// 	if (this.refs.messageInput.value !== "")
+		// 	{
+		// 		var msg = {
+		// 			author: "",
+		// 			message: this.refs.messageInput.value,
+		// 			timestamp: "",
+		// 			vote: { up: 0, down: 0},
+		// 			deleted: false
+		// 		};
+		// 		messagesRef.push(msg);
+		// 		this.clearInput();
+		// 	}
+		// }
+		//
+		// clearInput(e) {
+		// 	this.refs.messageInput.value = "";
+		// 	this.refs.messageInput.focus();
+		// }
 	</script>
 
-	<style>
-
+<style>
+:scope {
+	width: 100%;
+  min-width: 360px;
+  max-width: 1000px;
+  height: 92vh;
+  min-height: 300px;
+  max-height: 720px;
+}
 	</style>
 </app>
