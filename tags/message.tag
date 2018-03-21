@@ -1,20 +1,37 @@
-<message>
-
-	<p>{ msg.message }</p>
+<message hide={ msg.deleted }>
+	<li class="sent">
+		<img src="{ msg.profilePicURL }" alt="" />
+		<p><raw content="{ msg.message }"></raw></p>
+		<span class="ml-2 font-italic text-muted">{ msg.timestamp }</span>
+		<span class="text-success ml-2"><i class="fa fa-arrow-circle-up" aria-hidden="true" onclick={ upVote }></i> { msg.vote.up }</span>
+		<span class="text-danger ml-2"><i class="fa fa-arrow-circle-down" aria-hidden="true" onclick={ downVote }></i> { msg.vote.down }</span>
+		<span class="ml-2"><i class="fa fa-trash" aria-hidden="true" onclick={ deleteMsg }></i></span>
+	</li>
+	<!-- <li class="replies">
+		<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+		<p>When you're backed against the wall, break the god damn thing down.</p>
+		<span class="mr-2 font-italic text-muted float-right">fdsf</span>
+	</li> -->
 
 	<script>
 		var that = this;
-		console.log('message.tag');
+
+		upVote() {
+			database.ref("messages/" + this.msg.key + "/vote/up").set(this.msg.vote.up++);
+			that.update();
+		}
+
+		downVote() {
+			database.ref("messages/" + this.msg.key + "/vote/down").set(this.msg.vote.down++);
+			that.update();
+		}
+
+		deleteMsg() {
+			database.ref("messages/" + this.msg.key + "/deleted").set(true);
+			that.update();
+		}
 	</script>
 
 	<style>
-		:scope {
-			display: block;
-			border: 1px solid dodgerblue;
-			padding: 0.5em;
-		}
-		:scope:not(:last-child) {
-			margin-bottom: 1em;
-		}
 	</style>
 </message>

@@ -565,12 +565,12 @@ body {
   display: inline-block;
   clear: both;
   float: left;
-  margin: 15px 15px 5px 15px;
+  margin: 15px 15px 0px 15px;
   width: calc(100% - 25px);
   font-size: 0.9em;
 }
 #frame .content .messages ul li:nth-last-child(1) {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 #frame .content .messages ul li.sent img {
   margin: 6px 8px 0 0;

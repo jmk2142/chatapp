@@ -1,7 +1,7 @@
 <app>
-	<login if={ user == null }></login>
+	<login if={ user == "" }></login>
 
-	<div id="frame" if={ user !== null }>
+	<div id="frame" if={ user !== "" }>
 		<div id="sidepanel">
 			<div id="profile">
 				<div class="wrap">
@@ -151,71 +151,83 @@
 			</div>
 			<div class="messages">
 				<ul>
-					<li class="sent" each={ msg in chatLog }>
-						<img src="{ user.profilePicURL }" alt="" />
-						<p> { msg.message } </p>
-					</li>
-					<!-- <li class="replies">
-						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-						<p>When you're backed against the wall, break the god damn thing down.</p>
-					</li> -->
+				<message each={ msg in chatLog }></message>
+				<!-- <li class="sent" each={ msg in chatLog }>
+					<img src="{ msg.profilePicURL }" alt="" />
+					<p>{ msg.message }</p>
+					<span class="ml-2 font-italic text-muted">{ msg.timestamp }</span>
+				</li> -->
 				</ul>
 			</div>
 			<div class="message-input">
 				<div class="wrap">
-				<input type="text" placeholder="Write your message..." />
+				<input type="text" ref="inputMessage" placeholder="Write your message..." onkeypress={ sendMsg } />
 				<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-				<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+				<button class="submit" onclick={ sendMsg }><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 				</div>
 			</div>
 		</div>
 </div>
 	<script>
 		var app = this;
-		app.user = null;
+		app.user = "";
+
+		if(getCookie("name") !== "")
+			app.user = {
+				name: getCookie("name"),
+				profilePicURL: getCookie("profilePicURL")
+			}
 		// Demonstration Data
-		this.chatLog = [
-			{ message: "Hello"},
-			{ message: "Hola" },
-			{ message: "Konnichiwa" }
-		];
-		//
-		// messagesRef.on("value", function(snapshot) {
-		// 	var data = snapshot.val();
-		//
-		// 	//that.chatLog = [];
-		// 	for (key in data)
-		// 	{
-		// 		that.chatLog.push(data[key]);
-		// 	}
-		//
-		// 	app.update();
-		// });
-		//
-		// sendMsg(e) {
-		// 	if (e.type == "keypress" && e.key !== "Enter") {
-		// 		e.preventUpdate = true; // Prevents riot from auto update.
-		// 		return false; // Short-circuits function (function exits here, does not continue.)
-		// 	}
-		//
-		// 	if (this.refs.messageInput.value !== "")
-		// 	{
-		// 		var msg = {
-		// 			author: "",
-		// 			message: this.refs.messageInput.value,
-		// 			timestamp: "",
-		// 			vote: { up: 0, down: 0},
-		// 			deleted: false
-		// 		};
-		// 		messagesRef.push(msg);
-		// 		this.clearInput();
-		// 	}
-		// }
-		//
-		// clearInput(e) {
-		// 	this.refs.messageInput.value = "";
-		// 	this.refs.messageInput.focus();
-		// }
+		app.chatLog = [];
+
+		messagesRef.on("value", function(snapshot) {
+			var data = snapshot.val();
+			app.chatLog = [];
+			for (key in data)
+			{
+				app.chatLog.push(data[key]);
+			}
+			app.update();
+		});
+
+		sendMsg(e) {
+			if (e.type == "keypress" && e.key !== "Enter") {
+				e.preventUpdate = true; // Prevents riot from auto update.
+				return false; // Short-circuits function (function exits here, does not continue.)
+			}
+
+			if (this.refs.inputMessage.value !== "")
+			{
+				var msgID = messagesRef.push().key;
+				var message = this.refs.inputMessage.value;
+				var links = getLinks(message);
+
+				if (links !== null)
+				{
+					for(link of links.sites)
+						message = message.replace(link, `<a href="${link}" target="_blank">${link}</a>`);
+					for(link of links.images)
+						message = message.replace(link, `<a href="${link}" target="_blank"><img src="${link}" /></a>`);
+				}
+
+				var msg = {
+					author: this.user.name,
+					profilePicURL: this.user.profilePicURL,
+					message: message,
+					timestamp: new Date().toLocaleString(),
+					vote: { up: 0, down: 0},
+					key: msgID,
+					deleted: false
+				};
+				database.ref("messages/" + msgID).set(msg);
+				this.clearInput();
+			}
+		}
+
+		clearInput(e) {
+			this.refs.inputMessage.value = "";
+			this.refs.inputMessage.focus();
+		}
 	</script>
 
 <style>

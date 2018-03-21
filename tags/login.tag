@@ -19,13 +19,18 @@
     startChat() {
 			if (this.refs.inputName.value !== "")
 			{
+        var userID = userRef.push().key;
+
 				var user = {
 					name: this.refs.inputName.value,
-          profilePicURL: this.refs.inputProfilePicURL.value
+          profilePicURL: this.refs.inputProfilePicURL.value,
+          key: userID
 				};
         this.parent.user = user;
-				userRef.push(user);
+				database.ref("users/" + userID).set(user);
         this.parent.update();
+        setCookie("name", user.name, 1);
+        setCookie("profilePicURL", user.profilePicURL, 1);
 			}
 		}
 
