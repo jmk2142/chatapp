@@ -8,7 +8,6 @@
 	</script>
 <script>
 	var date = $('#inline_datepicker').datepicker("getDate");
-	//24 hour clock
 	date.setHours(14, 30);
 	console.log(date)
 </script>
