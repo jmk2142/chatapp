@@ -26,218 +26,176 @@
 					</div>
 				</div>
 			</div>
+
 			<div id="search">
 				<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-				<input type="text" placeholder="Search contacts..." />
+				<input type="text" placeholder="Search channels..." />
 			</div>
 			<div id="contacts">
 				<ul>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status online"></span>
-							<img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
-							<div class="meta">
-								<p class="name">Louis Litt</p>
-								<p class="preview">You just got LITT up, Mike.</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact active">
-						<div class="wrap">
-							<span class="contact-status busy"></span>
-							<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-							<div class="meta">
-								<p class="name">Harvey Specter</p>
-								<p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status away"></span>
-							<img src="http://emilcarlsson.se/assets/rachelzane.png" alt="" />
-							<div class="meta">
-								<p class="name">Rachel Zane</p>
-								<p class="preview">I was thinking that we could have chicken tonight, sounds good?</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status online"></span>
-							<img src="http://emilcarlsson.se/assets/donnapaulsen.png" alt="" />
-							<div class="meta">
-								<p class="name">Donna Paulsen</p>
-								<p class="preview">Mike, I know everything! I'm Donna..</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status busy"></span>
-							<img src="http://emilcarlsson.se/assets/jessicapearson.png" alt="" />
-							<div class="meta">
-								<p class="name">Jessica Pearson</p>
-								<p class="preview">Have you finished the draft on the Hinsenburg deal?</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status"></span>
-							<img src="http://emilcarlsson.se/assets/haroldgunderson.png" alt="" />
-							<div class="meta">
-								<p class="name">Harold Gunderson</p>
-								<p class="preview">Thanks Mike! :)</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status"></span>
-							<img src="http://emilcarlsson.se/assets/danielhardman.png" alt="" />
-							<div class="meta">
-								<p class="name">Daniel Hardman</p>
-								<p class="preview">We'll meet again, Mike. Tell Jessica I said 'Hi'.</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status busy"></span>
-							<img src="http://emilcarlsson.se/assets/katrinabennett.png" alt="" />
-							<div class="meta">
-								<p class="name">Katrina Bennett</p>
-								<p class="preview">I've sent you the files for the Garrett trial.</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status"></span>
-							<img src="http://emilcarlsson.se/assets/charlesforstman.png" alt="" />
-							<div class="meta">
-								<p class="name">Charles Forstman</p>
-								<p class="preview">Mike, this isn't over.</p>
-							</div>
-						</div>
-					</li>
-					<li class="contact">
-						<div class="wrap">
-							<span class="contact-status"></span>
-							<img src="http://emilcarlsson.se/assets/jonathansidwell.png" alt="" />
-							<div class="meta">
-								<p class="name">Jonathan Sidwell</p>
-								<p class="preview"><span>You:</span> That's bullshit. This deal is solid.</p>
-							</div>
-						</div>
-					</li>
+					<channel each={ channel in channels }></channel>
 				</ul>
 			</div>
 			<div id="bottom-bar">
-				<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+				<button id="addcontact" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>New channel</span></button>
 				<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
 			</div>
 		</div>
+
+		<!-- Create new channel -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">New channel</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<input type="text" class="form-control" id="channel-name" ref="inputChannelName">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" onclick={ createNewChannel }>Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="content">
 			<div class="contact-profile">
 				<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-				<p>Harvey Specter</p>
+				<p>{ selectedChannel.name }</p>
 				<div class="social-media">
 					<i class="fa fa-facebook" aria-hidden="true"></i>
 					<i class="fa fa-twitter" aria-hidden="true"></i>
-					 <i class="fa fa-instagram" aria-hidden="true"></i>
+					<i class="fa fa-instagram" aria-hidden="true"></i>
 				</div>
 			</div>
 			<div class="messages">
 				<ul>
-				<message each={ msg in chatLog }></message>
-				<!-- <li class="sent" each={ msg in chatLog }>
+					<message each={ msg in selectedChannel.messages }></message>
+					<!-- <li class="sent" each={ msg in chatLog }>
 					<img src="{ msg.profilePicURL }" alt="" />
 					<p>{ msg.message }</p>
 					<span class="ml-2 font-italic text-muted">{ msg.timestamp }</span>
 				</li> -->
-				</ul>
-			</div>
-			<div class="message-input">
-				<div class="wrap">
+			</ul>
+		</div>
+		<div class="message-input">
+			<div class="wrap">
 				<input type="text" ref="inputMessage" placeholder="Write your message..." onkeypress={ sendMsg } />
 				<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
 				<button class="submit" onclick={ sendMsg }><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-				</div>
 			</div>
 		</div>
+	</div>
 </div>
-	<script>
-		var app = this;
-		app.user = "";
+<script>
+	var app = this;
+	app.user = "";
+	app.selectedChannel = "";
 
-		if(getCookie("name") !== "")
-			app.user = {
-				name: getCookie("name"),
-				profilePicURL: getCookie("profilePicURL")
-			}
-		// Demonstration Data
-		app.chatLog = [];
+	if(getCookie("name") !== "")
+	app.user = {
+		name: getCookie("name"),
+		profilePicURL: getCookie("profilePicURL")
+	}
+	// Demonstration Data
+	app.chatLog = [];
+	app.channels = [];
 
-		messagesRef.on("value", function(snapshot) {
-			var data = snapshot.val();
-			app.chatLog = [];
-			for (key in data)
-			{
-				app.chatLog.push(data[key]);
-			}
-			app.update();
-		});
-
-		sendMsg(e) {
-			if (e.type == "keypress" && e.key !== "Enter") {
-				e.preventUpdate = true; // Prevents riot from auto update.
-				return false; // Short-circuits function (function exits here, does not continue.)
-			}
-
-			if (this.refs.inputMessage.value !== "")
-			{
-				var msgID = messagesRef.push().key;
-				var message = this.refs.inputMessage.value;
-				var links = getLinks(message);
-
-				if (links !== null)
-				{
-					for(link of links.sites)
-						message = message.replace(link, `<a href="${link}" target="_blank">${link}</a>`);
-					for(link of links.images)
-						message = message.replace(link, `<a href="${link}" target="_blank"><img src="${link}" /></a>`);
-				}
-
-				var msg = {
-					author: this.user.name,
-					profilePicURL: this.user.profilePicURL,
-					message: message,
-					timestamp: new Date().toLocaleString(),
-					vote: { up: 0, down: 0},
-					key: msgID,
-					deleted: false
-				};
-				database.ref("messages/" + msgID).set(msg);
-				this.clearInput();
-			}
+	channelsRef.on("value", function(snapshot) {
+		var data = snapshot.val();
+		app.channels = [];
+		for (key in data)
+		{
+			app.channels.push(data[key]);
 		}
 
-		clearInput(e) {
-			this.refs.inputMessage.value = "";
-			this.refs.inputMessage.focus();
+		if(app.selectedChannel == "")
+		{
+			app.selectedChannel = app.channels[0];
 		}
-	</script>
+		else {
+			app.selectedChannel = app.channels.find(function (channel) { return channel.key === app.selectedChannel.key; });
+		}
+		app.update();
+	});
+
+	// msgsInChannelRef.on("value", function(snapshot) {
+	// 	var data = snapshot.val();
+	// 	console.log(data);
+	// 	app.chatLog = [];
+	// 	for (key in data)
+	// 	{
+	// 		app.chatLog.push(data[key]);
+	// 	}
+	// 	app.update();
+	// });
+
+	sendMsg(e) {
+		if (e.type == "keypress" && e.key !== "Enter") {
+			e.preventUpdate = true; // Prevents riot from auto update.
+			return false; // Short-circuits function (function exits here, does not continue.)
+		}
+
+		if (this.refs.inputMessage.value !== "")
+		{
+			var msgID = channelsRef.child("/" + app.selectedChannel.key + "/messages").push().key;
+			var message = this.refs.inputMessage.value;
+			var links = getLinks(message);
+
+			if (links !== null)
+			{
+				for(link of links.sites)
+				message = message.replace(link, `<a href="${link}" target="_blank">${link}</a>`);
+				for(link of links.images)
+				message = message.replace(link, `<a href="${link}" target="_blank"><img src="${link}" /></a>`);
+			}
+
+			var msg = {
+				author: this.user.name,
+				profilePicURL: this.user.profilePicURL,
+				message: message,
+				timestamp: new Date().toLocaleString(),
+				vote: { up: 0, down: 0},
+				deleted: false
+			};
+			channelsRef.child("/" + app.selectedChannel.key + "/messages/" + msgID).set(msg);
+			this.clearInput();
+		}
+	}
+
+	createNewChannel() {
+		var channel = this.refs.inputChannelName.value;
+		if(channel == "")
+			return;
+		var channelID = channelsRef.push().key;
+		database.ref("/channels/" + channelID).set({name: channel, key: channelID});
+		this.refs.inputChannelName.value = "";
+		$(".modal").modal('hide');
+	}
+
+	clearInput(e) {
+		this.refs.inputMessage.value = "";
+		this.refs.inputMessage.focus();
+	}
+</script>
 
 <style>
-:scope {
-	width: 100%;
-  min-width: 360px;
-  max-width: 1000px;
-  height: 92vh;
-  min-height: 300px;
-  max-height: 720px;
-}
-	</style>
+	:scope {
+		width: 100%;
+		min-width: 360px;
+		max-width: 1000px;
+		height: 92vh;
+		min-height: 300px;
+		max-height: 720px;
+	}
+</style>
 </app>
