@@ -11,27 +11,31 @@
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
 
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> -->
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
 	<link href="css/index.css" rel="stylesheet">
 </head>
 <body>
 	<app></app>
 
+	<script src="js/index.js"></script>
+	<script src="js/utilities.js"></script>
 	<script src="tags/app.tag" type="riot/tag"></script>
 	<script src="tags/message.tag" type="riot/tag"></script>
 	<script src="tags/login.tag" type="riot/tag"></script>
+	<script src="tags/raw.tag" type="riot/tag"></script>
+	<script src="tags/channel.tag" type="riot/tag"></script>
 	<!-- I saved the libraries locally, so as not to hit the CDN fetch limit during testing. -->
+<!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script> -->
 	<!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 	<script src="js/riot+compiler.js"></script>
 	<script src="js/firebase.js"></script>
-	<script src="js/index.js"></script>
-	<!-- <script src="js/utilities.js"></script> -->
+
 
 	<script>
 	  // Initialize Firebase
@@ -49,11 +53,58 @@
 		// HERE
 		var database = firebase.database();
 		var messagesRef = database.ref("/messages");
-		var userRef = database.ref("/users");
+		var usersRef = database.ref("/users");
+		var channelsRef = database.ref("channels");
+		var generalChannelKey = "-L8D9iCOMXs6ShprA5NU";
 		// Initialize Riot
 		riot.mount('*');
-		var observable = riot.observable();
 
+		$(document).ready(function(e) {
+	 	 $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+
+	 	 $("#profile-img").click(function() {
+	 		 $("#status-options").toggleClass("active");
+	 	 });
+
+	 	 $(".expand-button").click(function() {
+	 		 $("#profile").toggleClass("expanded");
+	 		 $("#contacts").toggleClass("expanded");
+	 	 });
+
+	 	 $("#status-options ul li").click(function() {
+	 		 $("#profile-img").removeClass();
+	 		 $("#status-online").removeClass("active");
+	 		 $("#status-away").removeClass("active");
+	 		 $("#status-busy").removeClass("active");
+	 		 $("#status-offline").removeClass("active");
+	 		 $(this).addClass("active");
+
+	 		 if($("#status-online").hasClass("active")) {
+	 			 $("#profile-img").addClass("online");
+	 		 } else if ($("#status-away").hasClass("active")) {
+	 			 $("#profile-img").addClass("away");
+	 		 } else if ($("#status-busy").hasClass("active")) {
+	 			 $("#profile-img").addClass("busy");
+	 		 } else if ($("#status-offline").hasClass("active")) {
+	 			 $("#profile-img").addClass("offline");
+	 		 } else {
+	 			 $("#profile-img").removeClass();
+	 		 };
+
+	 		 $("#status-options").removeClass("active");
+	 	 });
+});
+
+		function newMessage() {
+			message = $(".message-input input").val();
+			if($.trim(message) == '') {
+				return false;
+			}
+			$('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + message + '</p></li>').appendTo($('.messages ul'));
+			$('.message-input input').val(null);
+			$('.contact.active .preview').html('<span>You: </span>' + message);
+			$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+		};
 	</script>
 </body>
 </html>
