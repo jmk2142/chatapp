@@ -12,6 +12,23 @@
 		<p>When you're backed against the wall, break the god damn thing down.</p>
 		<span class="mr-2 font-italic text-muted float-right">fdsf</span>
 	</li> -->
+<button onclick={ click }>{ message }</button>
+<script>
+this.message = 'Hi'
+
+click(e) {
+	this.message = 'Goodbye'
+}
+shouldUpdate(data, nextOpts) {
+if (this.message === 'Goodbye') return false
+
+return true
+}
+</script>
+</my-tag>
+
+
+
 
 	<script>
 		var that = this;
