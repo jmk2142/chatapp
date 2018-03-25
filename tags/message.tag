@@ -25,7 +25,7 @@ if (this.message === 'Goodbye') return false
 return true
 }
 </script>
-</my-tag>
+
 
 
 
