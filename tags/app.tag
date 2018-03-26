@@ -5,15 +5,15 @@
 		<div id="sidepanel">
 			<div id="profile">
 				<div class="wrap">
-					<img id="profile-img" src="{ user.profilePicURL }" class="online" alt="" />
+					<img id="profile-img" src="{ user.profilePicURL }" class="{ user.status }" alt="" />
 					<p>{ user.name }</p>
 					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 					<div id="status-options">
 						<ul>
-							<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
-							<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
-							<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
-							<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+							<li id="status-online" class="{(user.status == 'online') ? 'active' : ''}" onclick={ changeStatus } value="online"><span class="status-circle"></span> <p>Online</p></li>
+							<li id="status-away" class="{(user.status == 'away') ? 'active' : ''}" onclick={ changeStatus } value="away"><span class="status-circle"></span> <p>Away</p></li>
+							<li id="status-busy" class="{(user.status == 'busy') ? 'active' : ''}" onclick={ changeStatus } value="busy"><span class="status-circle"></span> <p>Busy</p></li>
+							<li id="status-offline" class="{(user.status == 'offline') ? 'active' : ''}" onclick={ changeStatus } value="offline"><span class="status-circle"></span> <p>Offline</p></li>
 						</ul>
 					</div>
 					<div id="expanded">
@@ -21,12 +21,6 @@
 						<input name="inputProfilePicURL" type="text" value="{ user.profilePicURL }" ref="inputProfilePicURL" placeholder="Profile Picture URL" />
 						<button class="btn float-right ml-2 mt-2" type="button" onclick={ saveSettings }>Save</button>
 						<button class="btn float-right mt-2" type="button" onclick={ cancelSettings }>Cancel</button>
-						<!-- <label for="inputName" class="sr-only">Name</label>
-				    <input type="name" ref="inputName" id="inputName" class="form-control" placeholder="Your Name" value="{ user.name }" required autofocus>
-				    <label for="inputProfilePicURL" class="sr-only">Profile Picture URL</label>
-				    <input type="profilepic" ref="inputProfilePicURL" id="inputProfilePicURL" class="form-control" placeholder="Profile Picture URL" required>
-				    <button class="btn btn-lg btn-block" type="button" onclick={ startChat }>Start Chatting</button> -->
-
 					</div>
 				</div>
 			</div>
@@ -84,11 +78,6 @@
 			<div class="messages">
 				<ul>
 					<message each={ msg in selectedChannel.messages }></message>
-					<!-- <li class="sent" each={ msg in chatLog }>
-					<img src="{ msg.profilePicURL }" alt="" />
-					<p>{ msg.message }</p>
-					<span class="ml-2 font-italic text-muted">{ msg.timestamp }</span>
-				</li> -->
 			</ul>
 		</div>
 		<div class="message-input">
@@ -102,19 +91,23 @@
 </div>
 <script>
 	var app = this;
-	app.user = "";
+	app.user = null;
 	app.selectedChannel = "";
 
-	if(getCookie("name") !== "")
-		app.user = {
-			name: getCookie("name"),
-			key: getCookie("key"),
-			profilePicURL: getCookie("profilePicURL")
-		}
-		
 	// Demonstration Data
 	app.chatLog = [];
 	app.channels = [];
+
+	usersRef.on("value", function(snapshot) {
+		var data = snapshot.val();
+
+		if (app.user == null && getCookie("key") !== "")
+			app.user = data[getCookie("key")];
+		else if(app.user !== "")
+			app.user = data[app.user.key];
+
+		app.update();
+	});
 
 	channelsRef.on("value", function(snapshot) {
 		var data = snapshot.val();
@@ -133,26 +126,6 @@
 		}
 		app.update();
 	});
-
-	usersRef.on("value", function(snapshot) {
-		var data = snapshot.val();
-		if(app.user !== "")
-			app.user = data[app.user.key];
-
-		setCookie("name", app.user.name, 1);
-		setCookie("profilePicURL", app.user.profilePicURL, 1);
-		app.update();
-	});
-	// msgsInChannelRef.on("value", function(snapshot) {
-	// 	var data = snapshot.val();
-	// 	console.log(data);
-	// 	app.chatLog = [];
-	// 	for (key in data)
-	// 	{
-	// 		app.chatLog.push(data[key]);
-	// 	}
-	// 	app.update();
-	// });
 
 	sendMsg(e) {
 		if (e.type == "keypress" && e.key !== "Enter") {
@@ -213,6 +186,16 @@
 	cancelSettings() {
 		this.refs.inputName.value = app.user.name;
 		this.refs.inputProfilePicURL.value = app.user.profilePicURL;
+	}
+
+	changeStatus(e) {
+		var status = "";
+		if(e.target.localName == "p" || e.target.localName == "span")
+			status = e.target.parentNode.id.split("-")[1];
+		else
+			status = e.target.id.split("-")[1];
+
+		database.ref("/users/" + app.user.key + "/status").set(status);
 	}
 </script>
 

@@ -1,6 +1,6 @@
 <message hide={ msg.deleted }>
 	<li class="sent" if={ this.parent.user.key == msg.userID }>
-		<img src="{ msg.profilePicURL }" alt="" />
+		<img src="{ msg.profilePicURL }" alt="" class="{ this.parent.user.status }" />
 		<p><raw content="{ msg.message }"></raw></p>
 		<span class="ml-2 font-italic text-muted">{ msg.timestamp }</span>
 		<span class="text-success ml-2"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i> { msg.vote.up }</span>
@@ -33,6 +33,7 @@
 			database.ref("messages/" + this.msg.key + "/deleted").set(true);
 			that.update();
 		}
+		$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 	</script>
 
 	<style>

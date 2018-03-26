@@ -24,14 +24,13 @@
 				var user = {
 					name: this.refs.inputName.value,
           profilePicURL: this.refs.inputProfilePicURL.value,
+          status: "online",
           key: userID
 				};
         this.parent.user = user;
 				database.ref("users/" + userID).set(user);
         this.parent.update();
-        setCookie("name", user.name, 1);
         setCookie("key", user.key, 1);
-        setCookie("profilePicURL", user.profilePicURL, 1);
 			}
 		}
 

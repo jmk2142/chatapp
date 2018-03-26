@@ -603,9 +603,10 @@ body {
   float: right;
 }
 #frame .content .messages ul li img {
-  width: 22px;
+  width: 30px;
   border-radius: 50%;
   float: left;
+  padding: 3px;
 }
 #frame .content .messages ul li p {
   display: inline-block;
@@ -683,4 +684,17 @@ body {
 }
 #frame .content .message-input .wrap button:focus {
   outline: none;
+}
+
+.online {
+  border: 2px solid #2ecc71;
+}
+.away {
+  border: 2px solid #f1c40f;
+}
+.busy {
+  border: 2px solid #e74c3c;
+}
+.offline {
+  border: 2px solid #95a5a6;
 }
