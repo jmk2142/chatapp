@@ -2,7 +2,7 @@
   <li class="contact">
     <div class="wrap">
       <span class="contact-status online"></span>
-      <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
+      <img src="./images/channel.png" alt="" />
       <div class="meta">
         <p class="name">{ channel.name }</p>
         <p class="preview text-muted font-italic">Last message at </p>

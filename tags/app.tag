@@ -3,27 +3,7 @@
 
 	<div id="frame" if={ user !== null }>
 		<div id="sidepanel">
-			<div id="profile">
-				<div class="wrap">
-					<img id="profile-img" src="{ user.profilePicURL }" class="{ user.status }" alt="" />
-					<p>{ user.name }</p>
-					<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
-					<div id="status-options">
-						<ul>
-							<li id="status-online" class="{(user.status == 'online') ? 'active' : ''}" onclick={ changeStatus } value="online"><span class="status-circle"></span> <p>Online</p></li>
-							<li id="status-away" class="{(user.status == 'away') ? 'active' : ''}" onclick={ changeStatus } value="away"><span class="status-circle"></span> <p>Away</p></li>
-							<li id="status-busy" class="{(user.status == 'busy') ? 'active' : ''}" onclick={ changeStatus } value="busy"><span class="status-circle"></span> <p>Busy</p></li>
-							<li id="status-offline" class="{(user.status == 'offline') ? 'active' : ''}" onclick={ changeStatus } value="offline"><span class="status-circle"></span> <p>Offline</p></li>
-						</ul>
-					</div>
-					<div id="expanded">
-						<input name="inputName" type="text" value="{ user.name }" ref="inputName" placeholder="Your Name" />
-						<input name="inputProfilePicURL" type="text" value="{ user.profilePicURL }" ref="inputProfilePicURL" placeholder="Profile Picture URL" />
-						<button class="btn float-right ml-2 mt-2" type="button" onclick={ saveSettings }>Save</button>
-						<button class="btn float-right mt-2" type="button" onclick={ cancelSettings }>Cancel</button>
-					</div>
-				</div>
-			</div>
+			<profile></profile>
 
 			<div id="search">
 				<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
@@ -67,13 +47,13 @@
 
 		<div class="content">
 			<div class="contact-profile">
-				<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+				<img src="./images/channel.png" alt="" />
 				<p>{ selectedChannel.name }</p>
-				<div class="social-media">
+				<!-- <div class="social-media">
 					<i class="fa fa-facebook" aria-hidden="true"></i>
 					<i class="fa fa-twitter" aria-hidden="true"></i>
 					<i class="fa fa-instagram" aria-hidden="true"></i>
-				</div>
+				</div> -->
 			</div>
 			<div class="messages">
 				<ul>
@@ -83,7 +63,7 @@
 		<div class="message-input">
 			<div class="wrap">
 				<input type="text" ref="inputMessage" placeholder="Write your message..." onkeypress={ sendMsg } />
-				<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+				<!-- <i class="fa fa-paperclip attachment" aria-hidden="true"></i> -->
 				<button class="submit" onclick={ sendMsg }><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</div>
 		</div>
@@ -103,7 +83,7 @@
 
 		if (app.user == null && getCookie("key") !== "")
 			app.user = data[getCookie("key")];
-		else if(app.user !== "")
+		else if(app.user !== null)
 			app.user = data[app.user.key];
 
 		app.update();
@@ -174,28 +154,6 @@
 	clearInput(e) {
 		this.refs.inputMessage.value = "";
 		this.refs.inputMessage.focus();
-	}
-
-	saveSettings() {
-		var newName = this.refs.inputName.value;
-		var newProfilePicURL = this.refs.inputProfilePicURL.value;
-		database.ref("/users/" + app.user.key + "/name").set(newName);
-		database.ref("/users/" + app.user.key + "/profilePicURL").set(newProfilePicURL);
-	}
-
-	cancelSettings() {
-		this.refs.inputName.value = app.user.name;
-		this.refs.inputProfilePicURL.value = app.user.profilePicURL;
-	}
-
-	changeStatus(e) {
-		var status = "";
-		if(e.target.localName == "p" || e.target.localName == "span")
-			status = e.target.parentNode.id.split("-")[1];
-		else
-			status = e.target.id.split("-")[1];
-
-		database.ref("/users/" + app.user.key + "/status").set(status);
 	}
 </script>
 

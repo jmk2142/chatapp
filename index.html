@@ -11,7 +11,6 @@
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
 
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
-	<!-- <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script> -->
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
 	<link href="css/index.css" rel="stylesheet">
 </head>
@@ -25,13 +24,11 @@
 	<script src="tags/login.tag" type="riot/tag"></script>
 	<script src="tags/raw.tag" type="riot/tag"></script>
 	<script src="tags/channel.tag" type="riot/tag"></script>
+	<script src="tags/profile.tag" type="riot/tag"></script>
 	<!-- I saved the libraries locally, so as not to hit the CDN fetch limit during testing. -->
-<!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script> -->
-	<!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 	<script src="js/riot+compiler.js"></script>
 	<script src="js/firebase.js"></script>
@@ -57,20 +54,7 @@
 		var channelsRef = database.ref("/channels");
 		var generalChannelKey = "-L8D9iCOMXs6ShprA5NU";
 		// Initialize Riot
-		riot.mount('*');
-
-		$(document).ready(function(e) {
-	 	 $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-
-	 	 $("#profile-img").click(function() {
-	 		 $("#status-options").toggleClass("active");
-	 	 });
-
-	 	 $(".expand-button").click(function() {
-	 		 $("#profile").toggleClass("expanded");
-	 		 $("#contacts").toggleClass("expanded");
-	 	 });
-});
+		riot.mount('app');
 	</script>
 </body>
 </html>

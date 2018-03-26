@@ -1,6 +1,6 @@
 <message hide={ msg.deleted }>
 	<li class="sent" if={ this.parent.user.key == msg.userID }>
-		<img src="{ msg.profilePicURL }" alt="" class="{ this.parent.user.status }" />
+		<img src="{ (msg.profilePicURL == '') ? './images/user.png' : msg.profilePicURL }" alt="" class="{ this.parent.user.status }" />
 		<p><raw content="{ msg.message }"></raw></p>
 		<span class="ml-2 font-italic text-muted">{ msg.timestamp }</span>
 		<span class="text-success ml-2"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i> { msg.vote.up }</span>
@@ -8,7 +8,7 @@
 		<span class="ml-2"><i class="fa fa-trash" aria-hidden="true" onclick={ deleteMsg }></i></span>
 	</li>
 	<li class="replies" if={ this.parent.user.key !== msg.userID }>
-		<img src="{ msg.profilePicURL }" alt="" />
+		<img src="{ (msg.profilePicURL == '') ? './images/user.png' : msg.profilePicURL }" alt="" />
 		<p><raw content="{ msg.message }"></raw></p>
 		<div class="float-right mt-2">
 			<span class="text-success mr-2"><i class="fa fa-arrow-circle-up" aria-hidden="true" onclick={ upVote }></i> { msg.vote.up }</span>

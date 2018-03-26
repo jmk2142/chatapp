@@ -5,7 +5,7 @@
     <label for="inputName" class="sr-only">Name</label>
     <input type="name" ref="inputName" id="inputName" class="form-control" placeholder="Your Name" required autofocus>
     <label for="inputProfilePicURL" class="sr-only">Profile Picture URL</label>
-    <input type="profilepic" ref="inputProfilePicURL" id="inputProfilePicURL" class="form-control" placeholder="Profile Picture URL" required>
+    <input type="profilepic" ref="inputProfilePicURL" id="inputProfilePicURL" class="form-control" placeholder="Profile Picture URL">
     <div class="checkbox mb-3">
       <label>
         <input type="checkbox" value="remember-me"> Remember me
