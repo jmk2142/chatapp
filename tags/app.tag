@@ -1,7 +1,7 @@
 <app>
 	<login if={ user == null }></login>
 
-	<div id="frame" if={ user !== "" }>
+	<div id="frame" if={ user !== null }>
 		<div id="sidepanel">
 			<div id="profile">
 				<div class="wrap">
