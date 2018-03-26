@@ -18,6 +18,7 @@
 	</li>
 	<script>
 		var that = this;
+
 		upVote() {
 			database.ref("messages/" + this.msg.key + "/vote/up").set(this.msg.vote.up++);
 			that.update();
