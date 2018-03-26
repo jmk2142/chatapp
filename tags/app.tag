@@ -1,5 +1,5 @@
 <app>
-	<login if={ user == "" }></login>
+	<login if={ user == null }></login>
 
 	<div id="frame" if={ user !== "" }>
 		<div id="sidepanel">
