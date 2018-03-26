@@ -14,18 +14,19 @@
 					<channel each={ channel in channels }></channel>
 				</ul>
 			</div>
+
 			<div id="bottom-bar">
-				<button id="addcontact" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>New channel</span></button>
-				<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+				<button id="addcontact" data-toggle="modal" data-target="#newChannelModal"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>New channel</span></button>
+				<button id="settings" data-toggle="modal" data-target="#themeModal"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Theme setting</span></button>
 			</div>
 		</div>
 
 		<!-- Create new channel -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="newChannelModal" tabindex="-1" role="dialog" aria-labelledby="channelModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">New channel</h5>
+						<h5 class="modal-title" id="channelModalLabel">New channel</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -33,13 +34,37 @@
 					<div class="modal-body">
 						<form>
 							<div class="form-group">
-								<input type="text" class="form-control" id="channel-name" ref="inputChannelName">
+								<input type="text" class="form-control" id="channel-name" ref="inputChannelName" placeholder="Channel Name">
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						<button type="button" class="btn btn-primary" onclick={ createNewChannel }>Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Change theme setting -->
+		<div class="modal fade" id="themeModal" tabindex="-1" role="dialog" aria-labelledby="themeModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="channelModalLabel">Change theme</h5>
+						<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button> -->
+					</div>
+					<div class="modal-body">
+						<span class="theme-options" onclick={ changeTheme }><span class="theme-options-circle blue"></span>Blue</span>
+						<span class="theme-options" onclick={ changeTheme }><span class="theme-options-circle green"></span>Green</span>
+						<span class="theme-options" onclick={ changeTheme }><span class="theme-options-circle red"></span>Red</span>
+						<span class="theme-options" onclick={ changeTheme }><span class="theme-options-circle orange"></span>Orange</span>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick={ cancelTheme }>Close</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick={ saveTheme }>Save</button>
 					</div>
 				</div>
 			</div>
@@ -73,7 +98,6 @@
 	var app = this;
 	app.user = null;
 	app.selectedChannel = "";
-
 	// Demonstration Data
 	app.chatLog = [];
 	app.channels = [];
@@ -154,6 +178,24 @@
 	clearInput(e) {
 		this.refs.inputMessage.value = "";
 		this.refs.inputMessage.focus();
+	}
+
+	changeTheme(e) {
+		app.user.theme = e.target.children[0].classList[1];
+		app.update();
+	}
+
+	saveTheme(e) {
+		if(app.user.theme == "default")
+			return;
+
+		var newTheme = app.user.theme;
+    database.ref("/users/" + app.user.key + "/theme").set(newTheme);
+	}
+
+	cancelTheme(e) {
+		app.user.theme = "default";
+		app.update();
 	}
 </script>
 

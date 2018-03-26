@@ -1,7 +1,7 @@
 <message hide={ msg.deleted }>
 	<li class="sent" if={ this.parent.user.key == msg.userID }>
 		<img src="{ (msg.profilePicURL == '') ? './images/user.png' : msg.profilePicURL }" alt="" class="{ this.parent.user.status }" />
-		<p><raw content="{ msg.message }"></raw></p>
+		<p class="{ this.parent.user.theme }"><raw content="{ msg.message }"></raw></p>
 		<span class="ml-2 font-italic text-muted">{ msg.timestamp }</span>
 		<span class="text-success ml-2"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i> { msg.vote.up }</span>
 		<span class="text-danger ml-2"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> { msg.vote.down }</span>

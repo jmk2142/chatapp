@@ -698,3 +698,43 @@ body {
 .offline {
   border: 2px solid #95a5a6;
 }
+
+.modal-content {
+  background-color: rgb(44, 62, 80);
+  color: white;
+  border-radius: 0px;
+}
+
+.theme-options-circle {
+  position: absolute;
+  margin: -1px 0 0 -30px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.theme-options {
+  margin-left: 30px;
+  margin-right: 40px;
+  cursor: pointer;
+}
+
+.blue {
+  background-color: #0064A0 !important;
+}
+
+.red {
+  background-color: #8d0000 !important;
+}
+
+.orange {
+  background-color: #c77000 !important;
+}
+
+.green {
+  background-color: #3e6824 !important;
+}
+
+.default {
+  background-color: #435f7a !important;
+}

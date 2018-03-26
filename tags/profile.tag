@@ -6,10 +6,10 @@
       <i class="fa fa-chevron-down expand-button" aria-hidden="true" onclick={ showSettings }></i>
       <div id="status-options">
         <ul>
-          <li id="status-online" class="{(this.parent.user.status == 'online') ? 'active' : ''}" onclick={ changeStatus } value="online"><span class="status-circle"></span> <p>Online</p></li>
-          <li id="status-away" class="{(this.parent.user.status == 'away') ? 'active' : ''}" onclick={ changeStatus } value="away"><span class="status-circle"></span> <p>Away</p></li>
-          <li id="status-busy" class="{(this.parent.user.status == 'busy') ? 'active' : ''}" onclick={ changeStatus } value="busy"><span class="status-circle"></span> <p>Busy</p></li>
-          <li id="status-offline" class="{(this.parent.user.status == 'offline') ? 'active' : ''}" onclick={ changeStatus } value="offline"><span class="status-circle"></span> <p>Offline</p></li>
+          <li id="status-online" class="{(this.parent.user.status == 'online') ? 'active' : ''}" onclick={ changeStatus }><span class="status-circle"></span> <p>Online</p></li>
+          <li id="status-away" class="{(this.parent.user.status == 'away') ? 'active' : ''}" onclick={ changeStatus }><span class="status-circle"></span> <p>Away</p></li>
+          <li id="status-busy" class="{(this.parent.user.status == 'busy') ? 'active' : ''}" onclick={ changeStatus }><span class="status-circle"></span> <p>Busy</p></li>
+          <li id="status-offline" class="{(this.parent.user.status == 'offline') ? 'active' : ''}" onclick={ changeStatus }><span class="status-circle"></span> <p>Offline</p></li>
         </ul>
       </div>
       <div id="expanded">
