@@ -19,7 +19,7 @@
     startChat() {
 			if (this.refs.inputName.value !== "")
 			{
-        var userID = userRef.push().key;
+        var userID = usersRef.push().key;
 
 				var user = {
 					name: this.refs.inputName.value,
@@ -30,6 +30,7 @@
 				database.ref("users/" + userID).set(user);
         this.parent.update();
         setCookie("name", user.name, 1);
+        setCookie("key", user.key, 1);
         setCookie("profilePicURL", user.profilePicURL, 1);
 			}
 		}

@@ -17,12 +17,16 @@
 						</ul>
 					</div>
 					<div id="expanded">
-						<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
-						<input name="twitter" type="text" value="mikeross" />
-						<label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
-						<input name="twitter" type="text" value="ross81" />
-						<label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
-						<input name="twitter" type="text" value="mike.ross" />
+						<input name="inputName" type="text" value="{ user.name }" ref="inputName" placeholder="Your Name" />
+						<input name="inputProfilePicURL" type="text" value="{ user.profilePicURL }" ref="inputProfilePicURL" placeholder="Profile Picture URL" />
+						<button class="btn float-right ml-2 mt-2" type="button" onclick={ saveSettings }>Save</button>
+						<button class="btn float-right mt-2" type="button" onclick={ cancelSettings }>Cancel</button>
+						<!-- <label for="inputName" class="sr-only">Name</label>
+				    <input type="name" ref="inputName" id="inputName" class="form-control" placeholder="Your Name" value="{ user.name }" required autofocus>
+				    <label for="inputProfilePicURL" class="sr-only">Profile Picture URL</label>
+				    <input type="profilepic" ref="inputProfilePicURL" id="inputProfilePicURL" class="form-control" placeholder="Profile Picture URL" required>
+				    <button class="btn btn-lg btn-block" type="button" onclick={ startChat }>Start Chatting</button> -->
+
 					</div>
 				</div>
 			</div>
@@ -102,10 +106,12 @@
 	app.selectedChannel = "";
 
 	if(getCookie("name") !== "")
-	app.user = {
-		name: getCookie("name"),
-		profilePicURL: getCookie("profilePicURL")
-	}
+		app.user = {
+			name: getCookie("name"),
+			key: getCookie("key"),
+			profilePicURL: getCookie("profilePicURL")
+		}
+		
 	// Demonstration Data
 	app.chatLog = [];
 	app.channels = [];
@@ -128,6 +134,15 @@
 		app.update();
 	});
 
+	usersRef.on("value", function(snapshot) {
+		var data = snapshot.val();
+		if(app.user !== "")
+			app.user = data[app.user.key];
+
+		setCookie("name", app.user.name, 1);
+		setCookie("profilePicURL", app.user.profilePicURL, 1);
+		app.update();
+	});
 	// msgsInChannelRef.on("value", function(snapshot) {
 	// 	var data = snapshot.val();
 	// 	console.log(data);
@@ -161,6 +176,7 @@
 
 			var msg = {
 				author: this.user.name,
+				userID: app.user.key,
 				profilePicURL: this.user.profilePicURL,
 				message: message,
 				timestamp: new Date().toLocaleString(),
@@ -185,6 +201,18 @@
 	clearInput(e) {
 		this.refs.inputMessage.value = "";
 		this.refs.inputMessage.focus();
+	}
+
+	saveSettings() {
+		var newName = this.refs.inputName.value;
+		var newProfilePicURL = this.refs.inputProfilePicURL.value;
+		database.ref("/users/" + app.user.key + "/name").set(newName);
+		database.ref("/users/" + app.user.key + "/profilePicURL").set(newProfilePicURL);
+	}
+
+	cancelSettings() {
+		this.refs.inputName.value = app.user.name;
+		this.refs.inputProfilePicURL.value = app.user.profilePicURL;
 	}
 </script>
 

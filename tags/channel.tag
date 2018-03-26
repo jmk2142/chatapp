@@ -5,7 +5,7 @@
       <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
       <div class="meta">
         <p class="name">{ channel.name }</p>
-        <p class="preview">You just got LITT up, Mike.</p>
+        <p class="preview text-muted font-italic">Last message at </p>
       </div>
     </div>
   </li>
