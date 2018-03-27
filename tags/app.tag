@@ -153,6 +153,7 @@
 
 			var msg = {
 				author: this.user.name,
+				key: msgID,
 				userID: app.user.key,
 				profilePicURL: this.user.profilePicURL,
 				message: message,

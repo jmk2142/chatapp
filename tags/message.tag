@@ -18,20 +18,21 @@
 	</li>
 	<script>
 		var that = this;
-
 		upVote() {
-			database.ref("messages/" + this.msg.key + "/vote/up").set(this.msg.vote.up++);
-			that.update();
+			this.msg.vote.up++;
+			database.ref("/channels/" + this.parent.selectedChannel.key + "/messages/" + this.msg.key + "/vote/up").set(this.msg.vote.up);
+			riot.update();
 		}
 
 		downVote() {
-			database.ref("messages/" + this.msg.key + "/vote/down").set(this.msg.vote.down++);
-			that.update();
+			this.msg.vote.down++;
+			database.ref("/channels/" + this.parent.selectedChannel.key + "/messages/" + this.msg.key + "/vote/down").set(this.msg.vote.down);
+			riot.update();
 		}
 
 		deleteMsg() {
-			database.ref("messages/" + this.msg.key + "/deleted").set(true);
-			that.update();
+			database.ref("/channels/" + this.parent.selectedChannel.key + "/messages/" + this.msg.key + "/deleted").set(true);
+			riot.update();
 		}
 		$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 	</script>
