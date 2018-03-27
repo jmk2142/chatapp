@@ -101,7 +101,6 @@
 	app.channels = [];
 
 	usersRef.on("value", function(snapshot) {
-		alert(getCookie("key"));
 		var data = snapshot.val();
 
 		if (app.user == null && getCookie("key") !== "")
