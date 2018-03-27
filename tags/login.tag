@@ -6,11 +6,11 @@
     <input type="name" ref="inputName" id="inputName" class="form-control" placeholder="Your Name" required autofocus>
     <label for="inputProfilePicURL" class="sr-only">Profile Picture URL</label>
     <input type="profilepic" ref="inputProfilePicURL" id="inputProfilePicURL" class="form-control" placeholder="Profile Picture URL">
-    <div class="checkbox mb-3">
+    <!-- <div class="checkbox mb-3">
       <label>
         <input type="checkbox" value="remember-me"> Remember me
       </label>
-    </div>
+    </div> -->
     <button class="btn btn-lg btn-block" type="button" onclick={ startChat }>Start Chatting</button>
     <!-- <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p> -->
   </form>
@@ -80,7 +80,7 @@
     border-bottom-left-radius: 0;
   }
   .form-signin input[type="profilepic"] {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }

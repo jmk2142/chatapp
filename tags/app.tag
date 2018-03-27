@@ -74,11 +74,9 @@
 			<div class="contact-profile">
 				<img src="./images/channel.png" alt="" />
 				<p>{ selectedChannel.name }</p>
-				<!-- <div class="social-media">
-					<i class="fa fa-facebook" aria-hidden="true"></i>
-					<i class="fa fa-twitter" aria-hidden="true"></i>
-					<i class="fa fa-instagram" aria-hidden="true"></i>
-				</div> -->
+				<div class="social-media">
+					<i class="fa fa-sign-out" aria-hidden="true" onclick={ signOut }></i>
+				</div>
 			</div>
 			<div class="messages">
 				<ul>
@@ -146,9 +144,9 @@
 			if (links !== null)
 			{
 				for(link of links.sites)
-				message = message.replace(link, `<a href="${link}" target="_blank">${link}</a>`);
+					message = message.replace(link, `<a href="${link}" target="_blank">${link}</a>`);
 				for(link of links.images)
-				message = message.replace(link, `<a href="${link}" target="_blank"><img src="${link}" /></a>`);
+					message = message.replace(link, `<a href="${link}" target="_blank"><img src="${link}" /></a>`);
 			}
 
 			var msg = {
@@ -196,6 +194,12 @@
 
 	cancelTheme(e) {
 		app.user.theme = "default";
+		app.update();
+	}
+
+	signOut() {
+		app.user = null;
+		setCookie("");
 		app.update();
 	}
 </script>
